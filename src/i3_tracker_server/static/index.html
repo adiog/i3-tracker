@@ -24,7 +24,6 @@
                     let targetDom = document.getElementById('highlight');
                     targetDom.innerHTML = sourceDom.innerHTML;
                 });
-                console.log(id_hash);
             });
         }
 
@@ -34,9 +33,11 @@
 <body onload="bootstrap();">
 
 {% autoescape off %}
+    <div style="align: center; width: 100%">
     <center>
         {{ svg }}
     </center>
+    </div>
 {% endautoescape %}
 
 <hr/>
@@ -53,7 +54,7 @@
             <td>{{ group.name }}</td>
         </tr>
         {% endfor %}
-        <table>
+    </table>
 </center>
 
 <hr/>

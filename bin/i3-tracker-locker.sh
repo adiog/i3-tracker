@@ -2,7 +2,7 @@
 # Copyright 2017 Aleksander Gajewski <adiog@brainfuck.pl>
 
 # Register inactive state
-curl http://tracker/inactive/ > /dev/null
+i3-tracker-helper.sh $1
 
 # Take a screenshot
 gnome-screenshot -f /tmp/screen_locked.png
@@ -14,4 +14,8 @@ mogrify -scale 5% -scale 2000% /tmp/screen_locked.png
 i3lock -i /tmp/screen_locked.png
 
 # Turn the screen off after a delay.
-sleep 60; pgrep i3lock && xset dpms force off
+function cleanup()
+{
+    sleep 60; pgrep -q i3lock && xset dpms force off
+}
+cleanup &

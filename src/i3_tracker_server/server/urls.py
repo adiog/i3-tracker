@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^panel/$', i3_tracker_server.tracker.views.panel),
     url(r'^panel/(?P<year>[0-9]{4})/(?P<month>[0-9]+)/(?P<day>[0-9]+)/$', i3_tracker_server.tracker.views.panel_day),
     url(r'^register/$', i3_tracker_server.tracker.views.register),
-    url(r'^inactive/$', i3_tracker_server.tracker.views.inactive),
+    url(r'^timeout/$', i3_tracker_server.tracker.views.timeout),
+    url(r'^userlock/$', i3_tracker_server.tracker.views.userlock),
 ]

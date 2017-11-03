@@ -1,13 +1,12 @@
-# This file is a part of [[$]] project.
+# This file is a part of i3-tracker project.
 # Copyright (c) 2017 Aleksander Gajewski <adiog@brainfuck.pl>.
+
 import random
+import re
 
 import svgwrite
 
-#dwg = svgwrite.Drawing('static/test.svg')
-#dwg.add(dwg.line((0, 0), (10, 0), stroke=svgwrite.rgb(10, 10, 16, '%')))
-#dwg.add(dwg.text('Test', insert=(100, 200), fill='red'))
-#dwg.save()
+
 svgcolors = [
   "aliceblue",        "antiquewhite",       "aqua",                  "aquamarine",
   "azure",            "beige",              "bisque",                "black",
@@ -77,7 +76,7 @@ def printsvg(event_list, class_list):
     colors = get_colors(class_list)
     height = 130
     width = 1850
-    dwg = svgwrite.Drawing('static/test.svg', height=height, width=width)
+    dwg = svgwrite.Drawing('static/test.svg', width='100%')
     canvas_width = 1830
     canvas_offset = 10
     for hour in range(24):
@@ -101,5 +100,8 @@ def printsvg(event_list, class_list):
         box_color = colors[event.window_class]
         link = dwg.add(dwg.a("#" + event.id_hash))
         link.add(dwg.rect(box_lower_left, box_upper_right, fill=box_color))
-    #dwg.save()
-    return dwg.tostring(), colors
+
+    svg = dwg.tostring()
+    svg = re.sub(r'<svg', f'<svg viewBox="0 0 {width} {height}"', svg)
+
+    return svg, colors

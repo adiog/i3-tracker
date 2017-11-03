@@ -10,7 +10,7 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
@@ -61,6 +61,7 @@ setup(
 
     entry_points={
         'console_scripts': [
+            'i3-tracker-tracker=i3_tracker_tracker.i3_tracker_tracker:i3_tracker_backend',
             'i3-tracker-server=i3_tracker_server.manage:main'
         ],
     },

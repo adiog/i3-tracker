@@ -8,7 +8,18 @@ def register_event(event):
     event['time'] = datetime.datetime.now().isoformat()
     print(event)
     print()
-    requests.post('http://tracker/register/', data=json.dumps(event))
+    request = requests.post('http://tracker/register/', data=json.dumps(event))
+    if request.status_code == 200:
+        status = 'OK'
+    else:
+        status = 'KO'
+    with open('/dev/shm/i3-tracker-status.txt', 'w') as status_file:
+        try:
+            status_text = event['window_class']
+        except:
+            status_text = event["name"]
+        status = f'[{status}]: {status_text}'.ljust(30) + '|'
+        status_file.write(status)
 
 
 def on_workspace_focus(i3, e):
