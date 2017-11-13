@@ -1,14 +1,16 @@
 #!/bin/bash
 # Copyright 2017 Aleksander Gajewski <adiog@brainfuck.pl>
 #   created:  pon, 6 lis 2017, 07:35:41
-#   modified: pon, 13 lis 2017, 16:22:06
+#   modified: pon, 13 lis 2017, 16:34:08
+
+cd $(dirname $0)
 
 if [[ ! -d ~/.venvs/i3-tracker ]]; 
 then
   mkdir -p ~/.venvs/
   virtualenv -p python3.6 ~/.venvs/i3-tracker
   . ~/.venvs/i3-tracker/bin/activate
-  pip install git+https://github.com/adiog/i3-tracker
+  pip install -e .. --upgrade
   
   mkdir -p ~/.venvs/i3-tracker/spawn
   (
