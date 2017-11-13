@@ -2,4 +2,5 @@
 __pycache__
 db.sqlite3
 src/i3_tracker_server.egg-info/
+src/i3_tracker.egg-info/
 .idea

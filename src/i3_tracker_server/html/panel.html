@@ -1,0 +1,163 @@
+{% extends "index.html" %}
+
+{% block title %}i3-tracker{% endblock %}
+
+{% block script %}panel.js{% endblock %}
+
+{% block body %}
+<body style="height: 100%" onload="bootstrap({{year}},{{month}},{{day}});">
+
+<div style="width: 100%; height: 100%;">
+    <div style="width=100%;" id="top">
+        <img style="position: absolute; z-index: 1; width: 80px; height: 80px; left: 30px; top: 10px"
+             src="/static/img/icon.png"/>
+        <div style="width: 100%; height: 30px;"></div>
+        <div style="position: relative; width: 100%; height: 70px; background-color: #196392; color: white">
+            <div style="position: absolute; right: 19%; width: 7%; top: 7px; text-align: center;">Day Start:
+                <hr/>
+                {{ dayStart }}
+            </div>
+            <div style="position: absolute; right: 10%; width: 7%; top: 7px; text-align: center;">Day End:
+                <hr/>
+                {{ dayEnd }}
+            </div>
+            <div style="position: absolute; right: 2%; width: 7%; top: 7px; text-align: center;">Duration:
+                <hr/>
+                {{ dayDuration }}
+            </div>
+            <div style="position: absolute; bottom: 10px; left: 150px;">
+                <input type="text" id="datepicker"/>
+                <button onclick="datepickerShift(-1); changeDate();">&lt;</button>
+                <button onclick="$('#datepicker').datepicker('setDate', '+0'); changeDate();">Today</button>
+                <button onclick="datepickerShift(1); changeDate();">&gt;</button>
+            </div>
+        </div>
+        <div style="width: 100%; height: 30px;"></div>
+
+
+        <div style="position: relative; align: center; width: 100%">
+            {% autoescape off %}
+            <div>
+                {{ svg_legend }}
+            </div>
+            <div style="position: relative;">
+                <select style="max-width: 8%; position: absolute; left: 10px; top: 35%;" id="windowClassSelection"
+                        onchange="updateSelection();">
+                    {% for svg_key in select %}
+                    {% if svg_key == '' %}
+                    <option value="{{svg_key}}" selected="selected">All activities</option>
+                    {% else %}
+                    <option value="{{svg_key}}">{{ svg_key }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                {% for key, svg in svgs.items %}
+                {{ svg }}
+                {% endfor %}
+            </div>
+            {% endautoescape %}
+        </div>
+
+        <div style="width: 100%; height: 10px;"></div>
+        <hr/>
+        <div id="highlight" style="text-align: center;"><table style="width: 100%"><tr><td style="text-align: center;">item preview</td></tr></table></div>
+        <hr/>
+        <div style="width: 100%; height: 10px;"></div>
+    </div>
+
+    <div id="bottom" style="width: 100%">
+        <table id="bottom_table" style="width: 100%">
+            <tr id="bottom_row">
+                <td id="bottom_left" style="width: 25%; vertical-align: top; padding: 20px;">
+                    <table id="sortable" class="tablesorter" style="border: 1px solid gray;">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Total:</th>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for group in group_sorted %}
+                            <tr>
+                                <td style="background-color: {{ group.color }};">{{ group.name }}</td>
+                                <td style="background-color: {{ group.color }};">{{ group.time }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+                <td id="bottom_right" style="width: 75%; padding: 20px; vertical-align: top; align: center; text-align: center;">
+                    <div id="bottom_header"><center>
+                        <input name="search" class="search" placeholder="Search" data-column="all" type="search">
+                    </center>
+                    </div>
+
+                    <table id="IDtable" class="tablesorter" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Activity</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in event_list %}
+                            <tr>
+                                <td style="width: 10%; background-color: {{ event.color }};">
+                                    {{ event.window_class }}
+                                </td>
+                                <td style="width: 60%;">
+                                    {{ event.name }}
+                                </td>
+                                <td style="width: 10%;">
+                                    {{ event.datetime_point }}
+                                </td>
+                                <td style="width: 10%;">
+                                    {{ event.end }}
+                                </td>
+                                <td style="width: 10%;">
+                                    {{ event.duration }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% for event in event_list %}
+                    <div id="{{event.id_hash}}" style="display: none;">
+                        <table style="width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <tr>
+                        <td style="width: 10%; background-color: {{ event.color }};">
+                            {{ event.window_class }}
+                        </td>
+                        <td style="width: 60%; background-color: {{ event.color }};">
+                            {{ event.name }}
+                        </td>
+                        <td style="width: 10%; background-color: {{ event.color }};">
+                            {{ event.datetime_point }}
+                        </td>
+                        <td style="width: 10%; background-color: {{ event.color }};">
+                            {{ event.end }}
+                        </td>
+                        <td style="width: 10%; background-color: {{ event.color }};">
+                            {{ event.duration }}
+                        </td>
+                        </tr>
+                        </table>
+                    </div>
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!---
+    {% for color in colors %}
+    <div style="background-color: {{ color }};">color: {{ color }}</div>
+    {% endfor %}
+    -->
+</body>
+{% endblock %}

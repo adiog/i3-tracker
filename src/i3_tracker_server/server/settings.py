@@ -57,7 +57,7 @@ ROOT_URLCONF = 'i3_tracker_server.server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR],
+        'DIRS': [BASE_DIR + '/html'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>{% block title %}BLOCK TITLE{% endblock %}</title>
+
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="author" content="Aleksander Gajewski <adiog@brainfuck.pl>"/>
+
+    <link rel="icon" type="image/png" href="/static/img/icon.png"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/icon.png"/>
+    <link rel="stylesheet" href="/static/tablesorter/tablesorter.css" type="text/css" media="print, projection, screen" />
+
+    <script src="/static/jquery/jquery-latest.js"></script>
+    <script src="/static/jquery-ui/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="/static/jquery-ui/jquery-ui.min.css" type="text/css"/>
+
+    <script>
+        var sortList = [[0,0]];
+    </script>
+
+    <script src="/static/tablesorter/jquery.tablesorter.js"></script>
+    <script src="/static/tablesorter/addons/widget-filter.js"></script>
+    <style id="css">
+        .filtered { display: none; }
+    </style>
+
+    <script src="/static/js/HTML.js"></script>
+    <script src="/static/js/{% block script %}HTML.js{% endblock %}"></script>
+</head>
+
+{% block body %}
+<body>
+    BLOCK BODY
+</body>
+{% endblock %}
+
+</html>
