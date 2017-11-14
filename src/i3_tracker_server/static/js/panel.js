@@ -95,8 +95,13 @@ function bootstrap(year, month, day)
                     let sourceDom = document.getElementById(id_hash);
                     let targetDom = document.getElementById('highlight');
                     targetDom.innerHTML = sourceDom.innerHTML;
-                });}
-                else {
+                });
+                domElement.addEventListener('mouseout', function() {
+                    let sourceDom = document.getElementById('emptyHighlight');
+                    let targetDom = document.getElementById('highlight');
+                    targetDom.innerHTML = sourceDom.innerHTML;
+                });
+                } else {
                 //console.log(domElement);
                 }
             });
