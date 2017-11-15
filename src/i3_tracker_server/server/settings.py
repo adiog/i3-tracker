@@ -125,3 +125,16 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+OVERRIDE_TIME = 3
+BLACKLIST_TYPE = ['Gmrun']
+BLACKLIST_NAME = ['(Private Browsing)']
+ALLOW_RANDOM_COLORS = True
+TRACKER_COLORS = {
+    'Firefox': '#9ACD32',
+    'Chromium-browser': '#66CDAA',
+    'jetbrains-clion': '#FF8C00',
+    'jetbrains-pycharm-ce': '#6495ED',
+    'Gnome-terminal': '#DAA520',
+    'vlc': '#FF6347'
+}

@@ -4,8 +4,10 @@
 import random
 import re
 
+import copy
 import svgwrite
 
+from i3_tracker_server.server.settings import TRACKER_COLORS, ALLOW_RANDOM_COLORS
 
 svgcolors = [
   "aliceblue",        "antiquewhite",       "aqua",                  "aquamarine",
@@ -75,10 +77,14 @@ svgcolors = [
 
 
 def get_colors(class_list):
-    colors = {}
+    if ALLOW_RANDOM_COLORS:
+        colors = copy.copy(TRACKER_COLORS)
+    else:
+        colors = TRACKER_COLORS
     colors_to_assign = random.sample(svgcolors, len(class_list))
     for i,k in enumerate(class_list):
-        colors[k] = colors_to_assign[i]
+        if k not in colors:
+            colors[k] = colors_to_assign[i]
     return colors
 
 
@@ -133,7 +139,7 @@ def printsvg_legend():
 
     return svg
 
-def printsvg(event_list, class_list):
+def printsvg(event_list, class_list, markNow):
     colors = get_colors(class_list)
     height = 100
     width = 1920
@@ -169,10 +175,15 @@ def printsvg(event_list, class_list):
         else:
             box_lower_left = (box_start, box_vertical_margin)
             box_upper_right = (box_start, box_vertical_margin+box_height)
-            link.add(dwg.line(start=box_lower_left, end=box_upper_right, stroke=box_color, stroke_width=2))
+            link.add(dwg.line(start=box_lower_left, end=box_upper_right, stroke=box_color, stroke_width=3))
+
 
     output = {}
     for class_type in svgs:
+        if markNow:
+            dwg = svgs[class_type]
+            box_start = timepoint_to_pixels(canvas_width, canvas_offset, markNow)
+            dwg.add(dwg.line(start=(box_start, 0), end=(box_start, 100), stroke='#196392', stroke_width=3))
         output[class_type] = re.sub(r'<svg', f'<svg id="svg_{class_type}" class="svg_sheet" style="display:none;" viewBox="0 0 {width} {height}"', svgs[class_type].tostring())
 
     return output, colors

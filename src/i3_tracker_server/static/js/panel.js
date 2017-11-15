@@ -49,13 +49,12 @@ var w = window,
     let bottomTopY = document.getElementById('bottom_header').clientHeight;
     let bottomBodyY = bottomY - bottomTopY;
 
-    document.getElementById('IDtable').style.height = bottomBodyY + 'px';
-    console.log(topY, bottomTopY, bottomBodyY);
-    //document.getElementById('IDtable').style.setAttribute('overflow-y', 'scroll');
-    $('#IDtable').css({"height": bottomBodyY + "px", "overflow-y": "scroll"});
-//        document.getElementById(avatar).style.height = B + 'px';
-//        document.getElementById(avatar + "_img").style.width = B + 'px';
-    console.log("x");
+    if (document.getElementById('IDtable').clientHeight > bottomBodyY) {
+        document.getElementById('IDtable').style.height = bottomBodyY + 'px';
+        console.log(topY, bottomTopY, bottomBodyY);
+        $('#IDtable').css({"height": bottomBodyY + "px", "overflow-y": "scroll"});
+        console.log("x");
+    }
 }
 
 function changeDate()
