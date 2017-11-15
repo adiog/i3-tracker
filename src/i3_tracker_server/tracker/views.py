@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils.datetime_safe import datetime
 
-from i3_tracker_server.server.settings import BLACKLIST_NAME, BLACKLIST_TYPE, OVERRIDE_TIME
+from i3_tracker_server.server.settings import BLACKLIST_NAME, BLACKLIST_TYPE, OVERRIDE_TIME, DUPLICATE_TIME
 from i3_tracker_server.tracker.svg import printsvg, printsvg_legend, svgcolors
 from i3_tracker_server.tracker.models import Event, Group
 
@@ -23,7 +23,7 @@ def is_recent(event, delta=OVERRIDE_TIME):
 
 
 def is_duplicate(event, event_json):
-    return event_json['name'] == event.name and event_json['type'] == event.window_class and is_recent(event, 900)
+    return event_json['name'] == event.name and event_json['type'] == event.window_class and is_recent(event, DUPLICATE_TIME)
 
 
 def create_or_override(event_json):

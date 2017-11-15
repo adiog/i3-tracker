@@ -126,8 +126,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-OVERRIDE_TIME = 3
-BLACKLIST_TYPE = ['Gmrun']
+OVERRIDE_TIME = 5
+DUPLICATE_TIME = 900
+BLACKLIST_TYPE = ['Gmrun', 'Gkrellm']
 BLACKLIST_NAME = ['(Private Browsing)']
 ALLOW_RANDOM_COLORS = True
 TRACKER_COLORS = {
