@@ -127,6 +127,10 @@ function bootstrap(year, month, day)
     $('#search').trigger('keyup', []);
     $.tablesorter.filter.value = $('#search').value;
 
+    setTimeout(function(){
+        $.tablesorter.filter.searching($top_table[0], true, true);
+    }, 100);
+
     onResize();
 }
 

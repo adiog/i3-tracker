@@ -1,17 +1,17 @@
 #!/bin/bash
 # Copyright 2017 Aleksander Gajewski <adiog@brainfuck.pl>
 #   created:  pon, 6 lis 2017, 07:35:41
-#   modified: pon, 13 lis 2017, 16:34:08
+#   modified: Sat 09 Dec 2017 01:18:54 PM CET
 
 cd $(dirname $0)
 
-if [[ ! -d ~/.venvs/i3-tracker ]]; 
+if [[ ! -d ~/.venvs/i3-tracker ]];
 then
   mkdir -p ~/.venvs/
   virtualenv -p python3.6 ~/.venvs/i3-tracker
   . ~/.venvs/i3-tracker/bin/activate
   pip install -e .. --upgrade
-  
+
   mkdir -p ~/.venvs/i3-tracker/spawn
   (
   echo ". ~/.venvs/i3-tracker/bin/activate"
@@ -28,9 +28,8 @@ then
   chmod +x  ~/.venvs/i3-tracker/spawn/i3-tracker-tracker
 fi
 
-
-screen -d -m -S i3-tracker-server bash ~/.venvs/i3-tracker/spawn/i3-tracker-server
-
-screen -d -m -S i3-tracker-tracker bash ~/.venvs/i3-tracker/spawn/i3-tracker-tracker
-
+screen -ls | grep -q i3-tracker-server || \
+  screen -d -m -S i3-tracker-server bash ~/.venvs/i3-tracker/spawn/i3-tracker-server
+screen -ls | grep -q i3-tracker-tracker || \
+  screen -d -m -S i3-tracker-tracker bash ~/.venvs/i3-tracker/spawn/i3-tracker-tracker
 
