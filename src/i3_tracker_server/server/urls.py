@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 import i3_tracker_server.tracker.views
+import i3_tracker_server.tracker.toggl
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,4 +26,9 @@ urlpatterns = [
     url(r'^register/$', i3_tracker_server.tracker.views.register),
     url(r'^timeout/$', i3_tracker_server.tracker.views.timeout),
     url(r'^userlock/$', i3_tracker_server.tracker.views.userlock),
+
+    url(r'^toggl/create/task/$', i3_tracker_server.tracker.toggl.create_task),
+    url(r'^toggl/create/range/$', i3_tracker_server.tracker.toggl.create_range),
+    url(r'^toggl/retrieve/$', i3_tracker_server.tracker.toggl.retrieve),
+
 ]

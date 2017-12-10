@@ -132,5 +132,8 @@ function bootstrap(year, month, day)
     }, 100);
 
     onResize();
+
+    let togglController = new TogglController();
+    document.body.appendChild(togglController.dom);
 }
 

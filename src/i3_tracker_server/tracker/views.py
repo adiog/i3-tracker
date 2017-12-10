@@ -11,6 +11,8 @@ from django.utils.datetime_safe import datetime
 from i3_tracker_server.server.settings import BLACKLIST_NAME, BLACKLIST_TYPE, OVERRIDE_TIME, DUPLICATE_TIME
 from i3_tracker_server.tracker.svg import printsvg, printsvg_legend, svgcolors
 from i3_tracker_server.tracker.models import Event, Group
+from i3_tracker_server.tracker.toggl import do_retrieve_day
+from i3_tracker_server.tracker.utils import sanitize_year_month_day
 
 
 def is_blacklist(event_json):
@@ -84,9 +86,8 @@ def is_today(year, month, day):
 
 
 def panel_day(request, year, month, day):
-    year=int(year)
-    month=int(month)
-    day=int(day)
+    year, month, day = sanitize_year_month_day(year, month, day)
+
     events_set = Event.objects.filter(datetime_point__year=year,
                                       datetime_point__month=month,
                                       datetime_point__day=day).order_by('datetime_point')
@@ -153,6 +154,9 @@ def panel_day(request, year, month, day):
         dayStart = "no data"
         dayEnd = "no data"
 
+    tasks = [{'name': task.name, 'datetime_start': task.datetime_start, 'datetime_stop': task.datetime_stop, 'duration': task.duration} for task in do_retrieve_day(year, month, day)]
+    print(tasks)
+
     return render(request, 'panel.html', {
         'year': year,
         'month': month,
@@ -165,7 +169,8 @@ def panel_day(request, year, month, day):
         'dayEnd': dayEnd,
         'dayDuration': dayDuration,
         'colors': svgcolors,
-        'select': select
+        'select': select,
+        'tasks': tasks
     })
 
 

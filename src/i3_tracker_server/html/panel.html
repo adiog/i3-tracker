@@ -9,7 +9,7 @@
 
 <div style="width: 100%; height: 100%;">
     <div style="width=100%;" id="top">
-        <img style="position: absolute; z-index: 1; width: 80px; height: 80px; left: 30px; top: 10px"
+        <img id="logo" style="position: absolute; z-index: 1; width: 80px; height: 80px; left: 30px; top: 10px"
              src="/static/img/icon.png"/>
         <div style="width: 100%; height: 30px;"></div>
         <div style="position: relative; width: 100%; height: 70px; background-color: #196392; color: white">
@@ -32,8 +32,11 @@
                 <button onclick="datepickerShift(1); changeDate();">&gt;</button>
             </div>
         </div>
-        <div style="width: 100%; height: 30px;"></div>
-
+        <div id="togglComponent">
+            <div id="togglLine"></div>
+            <div style="background-color: #196392; width: 100%; height: 30px;"></div>
+        </div>
+        <div style="width: 100%; height: 20px;"></div>
 
         <div style="position: relative; align: center; width: 100%">
             {% autoescape off %}
@@ -58,7 +61,7 @@
             {% endautoescape %}
         </div>
 
-        <div style="width: 100%; height: 10px;"></div>
+        <div style="width: 100%; height: 20px;"></div>
         <!--<hr/>-->
         <div id="highlight" style="background-color: #196392; padding: 5px; text-align: center;"><table style="width: 100%"><tr><td style="text-align: center;">&nbsp;</td></tr></table></div>
         <div id="emptyHighlight"><table style="width: 100%"><tr><td style="text-align: center;">&nbsp;</td></tr></table></div>
@@ -95,6 +98,35 @@
                         <input name="search" class="search" placeholder="Search" data-column="all" type="search">
                     </center>
                     </div>
+
+                    <table id="togglTable" class="tablesorter" style="width: 100%; display: none;">
+                        <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Duration</th>
+                        </tr>
+                        </thead>
+                        <tbody id="togglTbody">
+                        {% for task in tasks %}
+                        <tr>
+                            <td style="width: 60%;">
+                                {{ task.name }}
+                            </td>
+                            <td style="width: 10%;">
+                                {{ task.datetime_start }}
+                            </td>
+                            <td style="width: 10%;">
+                                {{ task.datetime_stop }}
+                            </td>
+                            <td style="width: 10%;">
+                                {{ task.duration }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
 
                     <table id="IDtable" class="tablesorter" style="width: 100%">
                         <thead>
