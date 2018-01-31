@@ -139,6 +139,7 @@ def printsvg_legend():
 
     return svg
 
+
 def printsvg(event_list, class_list, markNow):
     colors = get_colors(class_list)
     height = 100
@@ -147,13 +148,8 @@ def printsvg(event_list, class_list, markNow):
     canvas_offset = 210
     svgs = {}
     for class_type in class_list + ['']:
-        dwg = svgwrite.Drawing('static/test.svg', width='100%')
-        dwg.add(dwg.line(start=(0,100), end=(width,100), stroke_width=1, stroke='lightgray'))
-        dwg.add(dwg.line(start=(0,0), end=(width,0), stroke_width=1, stroke='lightgray'))
-        for hour in range(25):
-            box_start = seconds_to_pixel(canvas_width, 3600*hour)
-            dwg.add(dwg.line(start=(canvas_offset+box_start,0), end=(canvas_offset+box_start,100), stroke_width=1, stroke='lightgray'))
-            svgs[class_type] = dwg
+        dwg = get_grid(canvas_offset, canvas_width, width, height)
+        svgs[class_type] = dwg
 
     for event in event_list:
         box_start = timepoint_to_pixels(canvas_width, canvas_offset, event.datetime_point)
@@ -184,6 +180,32 @@ def printsvg(event_list, class_list, markNow):
             dwg = svgs[class_type]
             box_start = timepoint_to_pixels(canvas_width, canvas_offset, markNow)
             dwg.add(dwg.line(start=(box_start, 0), end=(box_start, 100), stroke='#196392', stroke_width=3))
-        output[class_type] = re.sub(r'<svg', f'<svg id="svg_{class_type}" class="svg_sheet" style="display:none;" viewBox="0 0 {width} {height}"', svgs[class_type].tostring())
+        output[class_type] = sanitize_for_html(class_type, svgs[class_type], width, height)
 
     return output, colors
+
+
+def sanitize_for_html(class_type, svg, width, height, display='none'):
+    return re.sub(r'<svg',
+                  f'<svg id="svg_{class_type}" class="svg_sheet" style="display:{display};" viewBox="0 0 {width} {height}"',
+                  svg.tostring())
+
+
+def get_grid(canvas_offset, canvas_width, width, height):
+    dwg = svgwrite.Drawing('static/test.svg', width='100%')
+    dwg.add(dwg.line(start=(0, height), end=(width, height), stroke_width=1, stroke='lightgray'))
+    dwg.add(dwg.line(start=(0, 0), end=(width, 0), stroke_width=1, stroke='lightgray'))
+    for hour in range(25):
+        box_start = seconds_to_pixel(canvas_width, 3600 * hour)
+        dwg.add(dwg.line(start=(canvas_offset + box_start, 0), end=(canvas_offset + box_start, height), stroke_width=1,
+                         stroke='lightgray'))
+    return dwg
+
+
+def togglSvg():
+    height = 100
+    width = 1920
+    canvas_width = 1700
+    canvas_offset = 210
+    dwg = get_grid(canvas_offset, canvas_width, width, height)
+    return sanitize_for_html('togglSvg', dwg, width, height, 'inline')

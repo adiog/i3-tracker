@@ -19,6 +19,18 @@ function $DOM(elementName, elementAttributes={})
     return dom;
 }
 
+function $SVG(elementName, elementAttributes={})
+{
+    let svgNS = "http://www.w3.org/2000/svg";
+    let dom = document.createElementNS(svgNS, elementName);
+    for(let attributeIndex in elementAttributes)
+    {
+        dom.setAttribute(attributeIndex, elementAttributes[attributeIndex]);
+    }
+    dom.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
+    return dom;
+}
+
 function $$(parentNode)
 {
     for(let i = 1; i < arguments.length; i++)

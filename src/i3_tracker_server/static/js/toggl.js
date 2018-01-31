@@ -83,6 +83,65 @@ function format_seconds(seconds)
     return zpad(hours) + ':' + zpad(minutes) + ':' + zpad(seconds);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+const canvas_offset = 210;
+const canvas_width = 1700;
+const seconds_width = 24*60*60;
+
+function seconds_from_midnight(timepoint)
+{
+    let today_midnight = new Date();
+    today_midnight.setHours(0);
+    today_midnight.setMinutes(0);
+    today_midnight.setSeconds(0);
+    return (timepoint - today_midnight.getTime()) / 1000;
+}
+
+function seconds_to_pixel(canvas_width, seconds)
+{
+    return seconds * canvas_width / seconds_width;
+}
+
+function timepoint_to_pixels(timepoint)
+{
+    return canvas_offset + seconds_to_pixel(canvas_width, seconds_from_midnight(timepoint));
+}
+///////////////////////////////////////////////////////////////////////////////
+
+class Range
+{
+    constructor(svg, text)
+    {
+        this.left = timepoint_to_pixels(Date.now());
+        this.right = timepoint_to_pixels(Date.now());
+        this.width = this.right - this.left;
+        this.rect = $SVG('rect', {'fill': '#A0BF56', 'height': 90, 'width': this.width, 'x': this.left, 'y': 5});
+        svg.appendChild(this.rect);
+
+                this.rect.addEventListener('mouseover', function() {
+                    //let sourceDom = document.getElementById(id_hash);
+                    let targetDom = document.getElementById('highlight');
+                    targetDom.style.color = 'white';
+                    targetDom.innerHTML = text.value;
+                });
+                this.rect.addEventListener('mouseout', function() {
+                    let sourceDom = document.getElementById('emptyHighlight');
+                    let targetDom = document.getElementById('highlight');
+                    targetDom.style.color = 'black';
+                    targetDom.innerHTML = sourceDom.innerHTML;
+                });
+
+    }
+
+    update()
+    {
+        this.right = timepoint_to_pixels(Date.now());
+        this.width = (this.right - this.left);
+        this.rect.setAttribute('width', this.width);
+        console.log(this.rect);
+    }
+}
+
 
 class MainLineView
 {
@@ -90,6 +149,8 @@ class MainLineView
         let that = this;
         this.pk = null;
         this.range_start = null;
+        this.svg = document.getElementById('svg_togglSvg');
+        this.range = null;
         //this.isRunning = false;
         //this.seconds = 0;
         //this.timepoints = [];
@@ -170,9 +231,11 @@ class MainLineView
         let now = Date.now();
         if (this.range_start === null) {
             this.range_start = now;
+            this.range = new Range(this.svg, this.text);
         } else {
             GetJSON('/toggl/create/range/', {pk: this.pk, start: this.range_start, stop: now}, function(resp){console.log(resp);});
             this.range_start = null;
+            this.range = null;
         }
         this.timepoints.push(now);
         console.log(this.timepoints);
@@ -232,6 +295,7 @@ class MainLineView
         if (this.isRunning) {
             this.seconds = this.seconds + 1;
             this.time.innerHTML = format_seconds(this.seconds);
+            this.range.update();
             console.log('Task [' + this.text.value + '] is working for total ' + this.seconds + ' seconds...');
         }
         setTimeout(function(){that.running();}, 1000);

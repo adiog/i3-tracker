@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.utils.datetime_safe import datetime
 
 from i3_tracker_server.server.settings import BLACKLIST_NAME, BLACKLIST_TYPE, OVERRIDE_TIME, DUPLICATE_TIME
-from i3_tracker_server.tracker.svg import printsvg, printsvg_legend, svgcolors
+from i3_tracker_server.tracker.svg import printsvg, printsvg_legend, svgcolors, togglSvg
 from i3_tracker_server.tracker.models import Event, Group
 from i3_tracker_server.tracker.toggl import do_retrieve_day
 from i3_tracker_server.tracker.utils import sanitize_year_month_day
@@ -170,7 +170,8 @@ def panel_day(request, year, month, day):
         'dayDuration': dayDuration,
         'colors': svgcolors,
         'select': select,
-        'tasks': tasks
+        'tasks': tasks,
+        'togglSvg': togglSvg()
     })
 
 
