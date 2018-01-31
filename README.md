@@ -6,6 +6,9 @@
 # i3-tracker-tracker
 * process collecting i3 events
 
+# x-tracker.sh
+* alternative to i3-tracker-tracker: instead of subscribing to i3 events, scripts is polling on x and registering changed focus event in a loop.
+
 # i3-tracker-helper.sh
 * emits lock/inactivity events
 
