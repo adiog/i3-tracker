@@ -1,16 +1,16 @@
 #!/bin/bash
 # Copyright 2017 Aleksander Gajewski <adiog@brainfuck.pl>
 #   created:  pon, 6 lis 2017, 07:35:41
-#   modified: Sat 09 Dec 2017 01:18:54 PM CET
+#   modified: Tue 05 Feb 2019 05:56:25 AM CET
 
 cd $(dirname $0)
 
 if [[ ! -d ~/.venvs/i3-tracker ]];
 then
   mkdir -p ~/.venvs/
-  virtualenv -p python3.6 ~/.venvs/i3-tracker
+  python3 -m virtualenv -p python3 ~/.venvs/i3-tracker
   . ~/.venvs/i3-tracker/bin/activate
-  pip install -e .. --upgrade
+  python3 -m pip install -e .. --upgrade
 
   mkdir -p ~/.venvs/i3-tracker/spawn
   (
