@@ -1,13 +1,13 @@
 #!/bin/bash
 # Copyright 2017 Aleksander Gajewski <adiog@brainfuck.pl>
 #   created:  pon, 6 lis 2017, 07:35:41
-#   modified: Tue 05 Feb 2019 11:34:32 PM CET
+#   modified: Tue 05 Feb 2019 11:34:06 PM CET
 
 cd $(dirname $0)
 
 if [[ ! -d ~/.venvs/i3-tracker ]];
 then
-  sudo apt install python3 python3-virtualenv python3-pip
+  sudo apt install xdotool python3 python3-virtualenv python3-pip
 
   mkdir -p ~/.venvs/
   python3 -m virtualenv -p python3 ~/.venvs/i3-tracker
@@ -43,5 +43,5 @@ fi
 screen -ls | grep -q i3-tracker-server || \
   screen -d -m -S i3-tracker-server bash ~/.venvs/i3-tracker/spawn/i3-tracker-server
 screen -ls | grep -q i3-tracker-tracker || \
-  screen -d -m -S i3-tracker-tracker bash ~/.venvs/i3-tracker/spawn/i3-tracker-tracker
+  screen -d -m -S i3-tracker-tracker bash ./x-tracker.sh
 

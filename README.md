@@ -1,3 +1,7 @@
+# Usage
+## On linux with i3: i3-tracker-spawn.sh
+## On linux without i3: x-tracker-spawn.sh
+
 # i3-tracker-server: django webserver
 * registering and storing events
 * presenting daily time tracker
