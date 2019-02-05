@@ -28,19 +28,17 @@ def is_duplicate(event, event_json):
 
 def create_or_override(event_json):
     last_event = Event.objects.order_by('datetime_point').last()
-    if is_duplicate(last_event, event_json):
-        #print('duplicate')
-        return
-    if is_recent(last_event):
-        last_event.name = event_json['name']
-        last_event.window_class = event_json['window_class']
-        last_event.save()
-        #print('overridden')
+    if last_event is not None:
+        if is_duplicate(last_event, event_json):
+            return
+        if is_recent(last_event):
+            last_event.name = event_json['name']
+            last_event.window_class = event_json['window_class']
+            last_event.save()
     else:
         event = Event(name=event_json['name'], window_class=event_json['window_class'])
         event.datetime_point = datetime.now()
         event.save()
-        #print('created')
 
 
 def register(request):
