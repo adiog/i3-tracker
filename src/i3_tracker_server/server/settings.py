@@ -27,7 +27,7 @@ SECRET_KEY = '7o^#lqzydyiny$y%xljdfws^a8+!)g%-dg&1clsfwd1a^c_0kf'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '0.0.0.0',
+    '127.0.0.1',
     'tracker'
 ]
 

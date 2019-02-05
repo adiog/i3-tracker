@@ -1,10 +1,9 @@
 server {
   server_name tracker;
 
-  listen 0.0.0.0:80;
-  listen [::]:80;
+  listen 127.0.0.1:80;
 
   location / {
-    proxy_pass http://0.0.0.0:7777;
+    proxy_pass http://127.0.0.1:7777;
   }
 }
